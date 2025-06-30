@@ -316,3 +316,43 @@ neuro_pilot()
 load("@litert//third_party/google_tensor:workspace.bzl", "google_tensor")
 
 google_tensor()
+
+##### header-only deps for our server #########################################
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# cpp-httplib – single header :contentReference[oaicite:1]{index=1}
+http_archive(
+    name = "com_github_yhirose_cpp_httplib",
+    urls = ["https://github.com/yhirose/cpp-httplib/archive/refs/tags/v0.15.3.tar.gz"],
+    strip_prefix = "cpp-httplib-0.15.3",
+    build_file_content = """
+cc_library(
+    name = "cpp_httplib",
+    hdrs = ["httplib.h"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+""",
+)
+
+# --- nlohmann/json (uses its own BUILD.bazel) ------------------------------
+http_archive(
+    name = "com_github_nlohmann_json",
+    urls = ["https://github.com/nlohmann/json/archive/refs/tags/v3.11.3.tar.gz"],
+    strip_prefix = "json-3.11.3",
+)
+# ---------------------------------------------------------------------------
+http_archive(
+    name = "com_github_jarro2783_cxxopts",
+    urls = ["https://github.com/jarro2783/cxxopts/archive/refs/tags/v3.2.0.tar.gz"],
+    strip_prefix = "cxxopts-3.2.0",
+    build_file_content = """
+cc_library(
+    name = "cxxopts",
+    hdrs = glob(["include/cxxopts.hpp"]),
+    includes = ["include"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
+""",
+)

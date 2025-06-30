@@ -17,6 +17,9 @@
 #include "absl/types/span.h"  // from @com_google_absl
 
 namespace litert::lm {
+static float g_temperature = 1.0f;  
+
+void SetGlobalTemperature(float t) { g_temperature = t < 0.01f ? 0.01f : t; }
 
 absl::StatusOr<std::vector<int>> TopKIndicies(absl::Span<const float> logits,
                                               int k, int batch_size) {

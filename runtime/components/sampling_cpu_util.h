@@ -8,6 +8,7 @@
 #include "absl/types/span.h"  // from @com_google_absl
 
 namespace litert::lm {
+void SetGlobalTemperature(float t);
 
 // Computes the top k indices of the given logits. The logits must be a 2D
 // tensor (in a flattened buffer) of shape [batch_size, vocab_size]. The output
